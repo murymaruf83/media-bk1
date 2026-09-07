@@ -897,11 +897,17 @@
             jawaban: userAnswersData
         };
 
-        const formData = new FormData();
-        formData.append('data', JSON.stringify(dataKirim));
+        const formBody = new URLSearchParams();
+        formBody.append('data', JSON.stringify(dataKirim));
 
-        fetch(scriptURL, { method: 'POST', body: formData })
-        .then(response => response.text())
+        fetch(scriptURL, { 
+            method: 'POST', 
+            body: formBody 
+        })
+        .then(response => {
+            if(!response.ok) throw new Error("Network Error");
+            return response.json();
+        })
         .then(data => {
             alert("Data Evaluasi Kuis berhasil disimpan ke Google Spreadsheet!");
             document.getElementById('quizArea').style.display = 'none';
@@ -982,11 +988,17 @@
               jawaban: answers
           };
 
-          const formData = new FormData();
-          formData.append('data', JSON.stringify(dataKirim));
+          const formBody = new URLSearchParams();
+          formBody.append('data', JSON.stringify(dataKirim));
 
-          fetch(scriptURL, { method: 'POST', body: formData })
-          .then(response => response.text())
+          fetch(scriptURL, { 
+              method: 'POST', 
+              body: formBody 
+          })
+          .then(response => {
+              if(!response.ok) throw new Error("Network Error");
+              return response.json();
+          })
           .then(data => {
               btn.textContent = "Terkirim!";
               feedback.style.color = "#168a55";
