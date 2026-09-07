@@ -693,8 +693,8 @@
     document.addEventListener("DOMContentLoaded", () => {
       lucide.createIcons();
 
-      // PASTIKAN MENGGUNAKAN URL APPS SCRIPT ANDA DI SINI
-      const scriptURL = "https://script.google.com/macros/s/AKfycbxwrJfOfb3fZxSvFvrLztFbcUj6jmh2DbvnirCGx_QUAVjbH5N5zsNGh_5XRUKlCbQHWQ/exec"; 
+      // MASUKKAN URL DEPLOYMENT BARU ANDA DI BAWAH INI
+      const scriptURL = "https://script.google.com/macros/s/AKfycbzOnmZNMLr7BpejjIcCWZT4qzVf60aF-L6S6dLo4uiydmVzE3vdmfAtMQ_sZoyV9z8_/exec"; 
 
       let currentQuestion = 1;
       const totalQuestions = 10;
@@ -897,11 +897,12 @@
             jawaban: userAnswersData
         };
 
-        const finalUrl = scriptURL + "?data=" + encodeURIComponent(JSON.stringify(dataKirim));
+        // BUNGKUS DENGAN FORMDATA UNTUK BYPASS CORS
+        const formData = new FormData();
+        formData.append('data', JSON.stringify(dataKirim));
 
-        fetch(finalUrl, { method: 'POST', mode: 'no-cors' })
+        fetch(scriptURL, { method: 'POST', body: formData })
         .then(response => {
-            alert("Data Evaluasi Kuis berhasil disimpan ke Google Spreadsheet!");
             document.getElementById('quizArea').style.display = 'none';
             const resDiv = document.getElementById('evalResult');
             resDiv.style.display = 'flex';
@@ -936,7 +937,7 @@
             }
         })
         .catch(error => {
-            alert("Terjadi kesalahan jaringan atau URL Database belum diatur. Coba klik kumpulkan lagi.");
+            alert("Gagal terhubung ke Database. Periksa koneksi internet Anda.");
             submitBtn.disabled = false;
             submitBtn.textContent = "Kumpulkan Jawaban";
         });
@@ -980,14 +981,15 @@
               jawaban: answers
           };
 
-          const finalUrl = scriptURL + "?data=" + encodeURIComponent(JSON.stringify(dataKirim));
+          // BUNGKUS DENGAN FORMDATA UNTUK BYPASS CORS
+          const formData = new FormData();
+          formData.append('data', JSON.stringify(dataKirim));
 
-          fetch(finalUrl, { method: 'POST', mode: 'no-cors' })
+          fetch(scriptURL, { method: 'POST', body: formData })
           .then(response => {
               btn.textContent = "Terkirim!";
               feedback.style.color = "#168a55";
               feedback.textContent = "✅ Jawaban Refleksi berhasil disimpan ke Database Guru.";
-              alert("Data Refleksi berhasil disimpan ke Google Spreadsheet!");
           })
           .catch(error => {
               btn.disabled = false;
