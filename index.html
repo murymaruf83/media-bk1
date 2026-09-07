@@ -907,9 +907,7 @@
         .then(response => response.json())
         .then(data => {
             if (data.result === "error") {
-                alert("GAGAL MENYIMPAN! Pesan error dari server:
-
-" + data.message);
+                alert("GAGAL MENYIMPAN! Pesan error dari server:\\n\\n" + data.message);
                 submitBtn.disabled = false;
                 submitBtn.textContent = "Kumpulkan Jawaban";
                 return;
