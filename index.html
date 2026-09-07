@@ -693,9 +693,9 @@
     document.addEventListener("DOMContentLoaded", () => {
       lucide.createIcons();
 
-      // MASUKKAN URL DEPLOYMENT BARU ANDA DI BAWAH INI
+      // URL Web App Anda
       const scriptURL = "https://script.google.com/macros/s/AKfycbyzcysUd-2t2U84IFITyA-I4R73b67PjYtWP2RYtGX-T3vi_sKzWHn5xA44qE6A8-8-/exec"; 
-	  
+      
       let currentQuestion = 1;
       const totalQuestions = 10;
       let userScore = 0;
@@ -823,7 +823,7 @@
           if(isCorrect === true) userScore += 10;
       }
 
-      // SUBMIT EVALUASI KUIS BERPIKIR KOMPUTASIONAL
+      // SUBMIT EVALUASI KUIS
       document.getElementById("submit-score").addEventListener("click", () => {
         const nameInput = document.getElementById("student-name").value.trim();
         const classInput = document.getElementById("student-class").value;
@@ -889,26 +889,31 @@
         isCorrect = (q10_1==='dek' && q10_2==='pola' && q10_3==='abs' && q10_4==='algo');
         rekamJawaban(q_txt, (q10_1 || q10_2 || q10_3 || q10_4) ? isCorrect : null);
 
-        // GANTI BAGIAN FETCH INI:
-        fetch(scriptURL, { 
-			method: 'POST',
-			headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-			body: JSON.stringify(dataKirim) // Langsung kirim JSON, jangan gunakan formBody
+        const dataKirim = {
+            tipe: 'Kuis',
+            nama: nameInput,
+            kelas: classInput,
+            nilai: userScore,
+            jawaban: userAnswersData
+        };
 
+        const formBody = new URLSearchParams();
+        formBody.append('data', JSON.stringify(dataKirim));
+
+        fetch(scriptURL, { 
+            method: 'POST', 
+            body: formBody 
         })
-        
-		.then(response => {
-            if(!response.ok) throw new Error("Network Error");
-            return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
-            // TAMBAHAN BARU: Membaca pesan error dari Apps Script
             if (data.result === "error") {
-                alert("GAGAL MENYIMPAN! Pesan error dari server:\n\n" + data.message);
+                alert("GAGAL MENYIMPAN! Pesan error dari server:
+
+" + data.message);
                 submitBtn.disabled = false;
                 submitBtn.textContent = "Kumpulkan Jawaban";
-                return; // Menghentikan proses agar tidak lanjut ke layar sukses
-				}
+                return;
+            }
             const resDiv = document.getElementById('evalResult');
             resDiv.style.display = 'flex';
 
@@ -942,7 +947,7 @@
             }
         })
         .catch(error => {
-            alert("Terjadi kesalahan jaringan atau URL Database belum diatur. Coba klik kumpulkan lagi.");
+            alert("Terjadi kesalahan jaringan atau koneksi ditolak.");
             submitBtn.disabled = false;
             submitBtn.textContent = "Kumpulkan Jawaban";
         });
@@ -978,17 +983,30 @@
           btn.textContent = "Mengirim Refleksi...";
           feedback.textContent = "";
 
-          // GANTI BAGIAN FETCH INI:
-        fetch(scriptURL, { 
-			method: 'POST',
-			headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-			body: JSON.stringify(dataKirim) 
-			})
-		 .then(response => {
-              if(!response.ok) throw new Error("Network Error");
-              return response.json();
+          const dataKirim = {
+              tipe: 'Refleksi',
+              nama: nameInput,
+              kelas: classInput,
+              nilai: 0,
+              jawaban: answers
+          };
+
+          const formBody = new URLSearchParams();
+          formBody.append('data', JSON.stringify(dataKirim));
+
+          fetch(scriptURL, { 
+              method: 'POST', 
+              body: formBody 
           })
+          .then(response => response.json())
           .then(data => {
+              if (data.result === "error") {
+                  btn.disabled = false;
+                  btn.textContent = "Kirim Ulang Refleksi";
+                  feedback.style.color = "#c84b36";
+                  feedback.textContent = "❌ Server menolak penyimpanan: " + data.message;
+                  return;
+              }
               btn.textContent = "Terkirim!";
               feedback.style.color = "#168a55";
               feedback.textContent = "✅ Jawaban Refleksi berhasil disimpan ke Database Guru.";
