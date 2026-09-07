@@ -689,7 +689,7 @@
    </main>
   </div>
 
- <script>
+  <script>
     document.addEventListener("DOMContentLoaded", () => {
       lucide.createIcons();
 
@@ -897,12 +897,13 @@
             jawaban: userAnswersData
         };
 
-        // BUNGKUS DENGAN FORMDATA UNTUK BYPASS CORS
         const formData = new FormData();
         formData.append('data', JSON.stringify(dataKirim));
 
         fetch(scriptURL, { method: 'POST', body: formData })
-        .then(response => {
+        .then(response => response.text())
+        .then(data => {
+            alert("Data Evaluasi Kuis berhasil disimpan ke Google Spreadsheet!");
             document.getElementById('quizArea').style.display = 'none';
             const resDiv = document.getElementById('evalResult');
             resDiv.style.display = 'flex';
@@ -937,7 +938,7 @@
             }
         })
         .catch(error => {
-            alert("Gagal terhubung ke Database. Periksa koneksi internet Anda.");
+            alert("Terjadi kesalahan jaringan atau URL Database belum diatur. Coba klik kumpulkan lagi.");
             submitBtn.disabled = false;
             submitBtn.textContent = "Kumpulkan Jawaban";
         });
@@ -981,15 +982,16 @@
               jawaban: answers
           };
 
-          // BUNGKUS DENGAN FORMDATA UNTUK BYPASS CORS
           const formData = new FormData();
           formData.append('data', JSON.stringify(dataKirim));
 
           fetch(scriptURL, { method: 'POST', body: formData })
-          .then(response => {
+          .then(response => response.text())
+          .then(data => {
               btn.textContent = "Terkirim!";
               feedback.style.color = "#168a55";
               feedback.textContent = "✅ Jawaban Refleksi berhasil disimpan ke Database Guru.";
+              alert("Data Refleksi berhasil disimpan ke Google Spreadsheet!");
           })
           .catch(error => {
               btn.disabled = false;
