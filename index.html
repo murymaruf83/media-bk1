@@ -889,22 +889,15 @@
         isCorrect = (q10_1==='dek' && q10_2==='pola' && q10_3==='abs' && q10_4==='algo');
         rekamJawaban(q_txt, (q10_1 || q10_2 || q10_3 || q10_4) ? isCorrect : null);
 
-        const dataKirim = {
-            tipe: 'Kuis',
-            nama: nameInput,
-            kelas: classInput,
-            nilai: userScore,
-            jawaban: userAnswersData
-        };
-
-        const formBody = new URLSearchParams();
-        formBody.append('data', JSON.stringify(dataKirim));
-
-        fetch(scriptURL, { 
-            method: 'POST', 
-            body: formBody 
+        // GANTI BAGIAN FETCH INI:
+        fetch(scriptURL, {
+            method: 'POST',
+            // Gunakan 'text/plain' untuk menghindari CORS preflight error
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(dataKirim) 
         })
-        .then(response => {
+        
+		.then(response => {
             if(!response.ok) throw new Error("Network Error");
             return response.json();
         })
@@ -985,22 +978,14 @@
           btn.textContent = "Mengirim Refleksi...";
           feedback.textContent = "";
 
-          const dataKirim = {
-              tipe: 'Refleksi',
-              nama: nameInput,
-              kelas: classInput,
-              nilai: 0,
-              jawaban: answers
-          };
-
-          const formBody = new URLSearchParams();
-          formBody.append('data', JSON.stringify(dataKirim));
-
-          fetch(scriptURL, { 
-              method: 'POST', 
-              body: formBody 
-          })
-          .then(response => {
+          // GANTI BAGIAN FETCH INI:
+        fetch(scriptURL, {
+            method: 'POST',
+            // Gunakan 'text/plain' untuk menghindari CORS preflight error
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(dataKirim) 
+        })
+		 .then(response => {
               if(!response.ok) throw new Error("Network Error");
               return response.json();
           })
