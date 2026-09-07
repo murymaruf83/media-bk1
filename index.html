@@ -864,14 +864,14 @@
         let q7_3 = document.getElementById('q7_3').value;
         q_txt = `1:${q7_1||'-'}, 2:${q7_2||'-'}, 3:${q7_3||'-'}`;
         isCorrect = (q7_1==='salah' && q7_2==='benar' && q7_3==='benar');
-        rekamJawaban(q7_txt, (q7_1 || q7_2 || q7_3) ? isCorrect : null);
+        rekamJawaban(q_txt, (q7_1 || q7_2 || q7_3) ? isCorrect : null);
 
         let q8_1 = document.getElementById('q8_1').value;
         let q8_2 = document.getElementById('q8_2').value;
         let q8_3 = document.getElementById('q8_3').value;
         q_txt = `1:${q8_1||'-'}, 2:${q8_2||'-'}, 3:${q8_3||'-'}`;
         isCorrect = (q8_1==='salah' && q8_2==='salah' && q8_3==='benar');
-        rekamJawaban(q8_txt, (q8_1 || q8_2 || q8_3) ? isCorrect : null);
+        rekamJawaban(q_txt, (q8_1 || q8_2 || q8_3) ? isCorrect : null);
 
         let q9_1 = document.getElementById('q9_1').value;
         let q9_2 = document.getElementById('q9_2').value;
@@ -879,7 +879,7 @@
         let q9_4 = document.getElementById('q9_4').value;
         q_txt = `1:${q9_1||'-'}, 2:${q9_2||'-'}, 3:${q9_3||'-'}, 4:${q9_4||'-'}`;
         isCorrect = (q9_1==='dek' && q9_2==='abs' && q9_3==='algo' && q9_4==='pola');
-        rekamJawaban(q9_txt, (q9_1 || q9_2 || q9_3 || q9_4) ? isCorrect : null);
+        rekamJawaban(q_txt, (q9_1 || q9_2 || q9_3 || q9_4) ? isCorrect : null);
 
         let q10_1 = document.getElementById('q10_1').value;
         let q10_2 = document.getElementById('q10_2').value;
@@ -887,7 +887,7 @@
         let q10_4 = document.getElementById('q10_4').value;
         q_txt = `1:${q10_1||'-'}, 2:${q10_2||'-'}, 3:${q10_3||'-'}, 4:${q10_4||'-'}`;
         isCorrect = (q10_1==='dek' && q10_2==='pola' && q10_3==='abs' && q10_4==='algo');
-        rekamJawaban(q10_txt, (q10_1 || q10_2 || q10_3 || q10_4) ? isCorrect : null);
+        rekamJawaban(q_txt, (q10_1 || q10_2 || q10_3 || q10_4) ? isCorrect : null);
 
         const dataKirim = {
             tipe: 'Kuis',
