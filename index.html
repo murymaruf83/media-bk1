@@ -890,11 +890,11 @@
         rekamJawaban(q_txt, (q10_1 || q10_2 || q10_3 || q10_4) ? isCorrect : null);
 
         // GANTI BAGIAN FETCH INI:
-        fetch(scriptURL, {
-            method: 'POST',
-            // Gunakan 'text/plain' untuk menghindari CORS preflight error
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify(dataKirim) 
+        fetch(scriptURL, { 
+			method: 'POST',
+			headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+			body: JSON.stringify(dataKirim) // Langsung kirim JSON, jangan gunakan formBody
+
         })
         
 		.then(response => {
@@ -979,12 +979,11 @@
           feedback.textContent = "";
 
           // GANTI BAGIAN FETCH INI:
-        fetch(scriptURL, {
-            method: 'POST',
-            // Gunakan 'text/plain' untuk menghindari CORS preflight error
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify(dataKirim) 
-        })
+        fetch(scriptURL, { 
+			method: 'POST',
+			headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+			body: JSON.stringify(dataKirim) 
+			})
 		 .then(response => {
               if(!response.ok) throw new Error("Network Error");
               return response.json();
