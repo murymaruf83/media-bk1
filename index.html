@@ -909,8 +909,12 @@
             return response.json();
         })
         .then(data => {
-            alert("Data Evaluasi Kuis berhasil disimpan ke Google Spreadsheet!");
-            document.getElementById('quizArea').style.display = 'none';
+            // TAMBAHAN BARU: Membaca pesan error dari Apps Script
+            if (data.result === "error") {
+                alert("GAGAL MENYIMPAN! Pesan error dari server:\n\n" + data.message);
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Kumpulkan Jawaban";
+                return; // Menghentikan proses agar tidak lanjut ke layar sukses
             const resDiv = document.getElementById('evalResult');
             resDiv.style.display = 'flex';
 
